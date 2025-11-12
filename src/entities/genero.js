@@ -1,13 +1,11 @@
 import { EntitySchema } from "typeorm";
 
-const filme = new EntitySchema({
-  name: "Filmes",
-  tableName: "filmes",
+const genero = new EntitySchema({
+  name: "Generos",
+  tableName: "Generos",
   columns: {
     id: { primary: true, type: "int", generated: "increment" },
     nome: { type: "varchar", length: 100, nullable: false },
-    genero: { type: "varchar", length: 50, nullable: false },
-    ano: { type: "int", nullable: false },
     createdAt: {
       type: "datetime",
       nullable: false,
@@ -16,4 +14,4 @@ const filme = new EntitySchema({
   },
 });
 
-export default filme;
+export default genero;

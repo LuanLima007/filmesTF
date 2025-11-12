@@ -1,20 +1,21 @@
-const { EntitySchema } = require("typeorm");
+import { EntitySchema } from "typeorm";
 
-module.exports = new EntitySchema({
-  name: "Usuario",
-  tableName: "usuarios",
+const user = new EntitySchema({
+  name: "User",
+  tableName: "User",
   columns: {
-    id: {
-      type: Number,
-      primary: true,
-      generated: true
+    id: { primary: true, type: "int", generated: "increment" },
+    name: { type: "varchar", length: 50, nullable: false },
+    password: { type: "varchar", length: 50, nullable: false },
+    email: { type: "varchar", length: 50, nullable: false },
+    typeUser: { type: "enum", enum: ["admin", "comum"], nullable: false },
+    createdAt: {
+      type: "datetime",
+      nullable: false,
+      default: () => "CURRENT_TIMESTAMP",
     },
-    nome: {
-      type: String,
-    },
-    email: {
-      type: String,
-      unique: true,
-    }
-  }
+    deletedAt: { type: "datetime", nullable: true },
+  },
 });
+
+export default user;

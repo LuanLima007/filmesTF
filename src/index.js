@@ -1,43 +1,17 @@
-require("reflect-metadata");
-const express = require("express");
-const AppDataSource = require("./data-source");
+import express from 'express';
+import { AppDataSource } from './database/data-source.js';
+import routes from './routes.js';
 
-const app = express();
-app.use(express.json());
+const server = express();
 
-AppDataSource.initialize()
-  .then(() => {
-    console.log("Banco conectado!");
+server.use(express.json());
 
-    const filmeRepository = AppDataSource.getRepository("Filme");
+server.use("/", routes);
 
-    // Listar todos os filmes
-    app.get("/filmes", async (req, res) => {
-      const filmes = await filmeRepository.find();
-      res.json(filmes);
-    });
+AppDataSource.initialize().then(async () =>{
+    console.log("banco de dados conectado!!!")
+})
 
-    // Criar um filme
-    app.post("/filmes", async (req, res) => {
-      const novo = filmeRepository.create(req.body);
-      const salvo = await filmeRepository.save(novo);
-      res.json(salvo);
-    });
-
-    // Atualizar um filme
-    app.put("/filmes/:id", async (req, res) => {
-      const { id } = req.params;
-      await filmeRepository.update(id, req.body);
-      res.json({ message: "Filme atualizado!" });
-    });
-
-    // Deletar um filme
-    app.delete("/filmes/:id", async (req, res) => {
-      const { id } = req.params;
-      await filmeRepository.delete(id);
-      res.json({ message: "Filme deletado!" });
-    });
-
-    app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
-  })
-  .catch((err) => console.error("Erro ao conectar:", err));
+server.listen(3333, () => {
+    console.log("Servidor está funcionando!!!")
+});

@@ -1,20 +1,17 @@
-const { DataSource } = require("typeorm");
+import { DataSource } from "typeorm";
+import user from "../entities/user.js";
+import genero from "../entities/genero.js";
+import filme from "../entities/filme.js";
+import assistidos from "../entities/assistidos.js";
 
-const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource({
   type: "mysql",
   host: "localhost",
   port: 3306,
   username: "root",
-  password: "240193",
+  password: "Adm_34228881",
   database: "filmesdb",
   synchronize: false,
   logging: true,
-  entities: [__dirname + "/entities/*.js"], // <-- Adiciona aqui
-  migrations: [__dirname + "/migrations/*.js"],
+  entities: [user, genero, filme, assistidos]
 });
-
-AppDataSource.initialize()
-  .then(() => console.log("Banco conectado!"))
-  .catch(err => console.error("Erro na conexão:", err));
-
-module.exports = AppDataSource;
